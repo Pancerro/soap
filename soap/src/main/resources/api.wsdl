@@ -1,0 +1,88 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://amw.gdynia.pl/sao/lab1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://amw.gdynia.pl/sao/lab1" targetNamespace="http://amw.gdynia.pl/sao/lab1">
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://amw.gdynia.pl/sao/lab1">
+<xs:element name="registerCallRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="student" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="registerCallResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="exercise" type="tns:exercise"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="exercise">
+<xs:sequence>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="note" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="resultsRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="student" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="resultsResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="entry" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="resultsResponse">
+<wsdl:part element="tns:resultsResponse" name="resultsResponse"></wsdl:part>
+</wsdl:message>
+<wsdl:message name="registerCallResponse">
+<wsdl:part element="tns:registerCallResponse" name="registerCallResponse"></wsdl:part>
+</wsdl:message>
+<wsdl:message name="registerCallRequest">
+<wsdl:part element="tns:registerCallRequest" name="registerCallRequest"></wsdl:part>
+</wsdl:message>
+<wsdl:message name="resultsRequest">
+<wsdl:part element="tns:resultsRequest" name="resultsRequest"></wsdl:part>
+</wsdl:message>
+<wsdl:portType name="ApiPort">
+<wsdl:operation name="results">
+<wsdl:input message="tns:resultsRequest" name="resultsRequest"></wsdl:input>
+<wsdl:output message="tns:resultsResponse" name="resultsResponse"></wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="registerCall">
+<wsdl:input message="tns:registerCallRequest" name="registerCallRequest"></wsdl:input>
+<wsdl:output message="tns:registerCallResponse" name="registerCallResponse"></wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="ApiPortSoap11" type="tns:ApiPort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="results">
+<soap:operation soapAction=""/>
+<wsdl:input name="resultsRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="resultsResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="registerCall">
+<soap:operation soapAction=""/>
+<wsdl:input name="registerCallRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="registerCallResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="ApiPortService">
+<wsdl:port binding="tns:ApiPortSoap11" name="ApiPortSoap11">
+<soap:address location="https://blooming-waters-10524.herokuapp.com:443/ws"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
